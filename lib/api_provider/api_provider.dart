@@ -13,7 +13,7 @@ class ApiProvider {
     'Accept': 'application/json'
   };
 
-  Future<List<VillageSecModel>> getVillages() async {
+  Future<VillageSecModel> getVillages() async {
     var map = {
       "Key": "ByJxFDKBk",
       "DistrictName": "Guntur",
@@ -33,18 +33,13 @@ class ApiProvider {
     print("villageResponse:${response.body}");
     print("---------------------------------------------------------");
     if (response.statusCode == 200) {
-      Iterable list = json.decode(response.body);
-
-      List<VillageSecModel> villages =
-          list.map((model) => VillageSecModel.fromJson(model)).toList();
-      print("-------------------${villages.length}");
-      return villages;
+      return VillageSecModel.fromJson(responseJson);
     } else {
       throw Exception('Failed to load data!');
     }
   }
 
-  Future<List<NameModel>> getNames() async {
+  Future<NameModel> getNames() async {
 
     print("------------------------------------------------a");
     var map = {
@@ -64,12 +59,7 @@ class ApiProvider {
     responseJson = json.decode(response.body);
     print("villageResponse:${response.body}");
     if (response.statusCode == 200) {
-      Iterable list = json.decode(response.body);
-
-      List<NameModel> names =
-          list.map((model) => NameModel.fromJson(model)).toList();
-      print("------------------------------------------------${names}");
-      return names;
+      return NameModel.fromJson(responseJson);
     } else {
       throw Exception('Failed to load data!');
     }

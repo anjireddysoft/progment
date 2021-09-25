@@ -7,12 +7,12 @@ import 'package:progment_task/model/villagesec.dart';
 class VillageSecRepository {
   ApiProvider apiProvider = ApiProvider();
 
-  Future<List<VillageSecModel>> getVillageSecListData() async {
+  Future<VillageSecModel> getVillageSecListData() async {
     return apiProvider.getVillages();
 
   }
 
-  Future<List<NameModel>> getNamesList() async {
+  Future<NameModel> getNamesList() async {
     return apiProvider.getNames();
   }
 

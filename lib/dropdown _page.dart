@@ -21,9 +21,11 @@ class _DropDownScreenState extends State<DropDownScreen> {
   BookingBolc bookingBolc;
   VillageSecBloc villageSecBloc = VillageSecBloc();
   VillageSecModel village;
-  List<VillageSecModel>villageList;
-  List<NameModel>nameList;
+  VillageSecModel villageList;
+  NameModel nameList;
   NameModel name;
+  Data data;
+  DataItem nameData;
 
   @override
   void initState() {
@@ -82,23 +84,27 @@ class _DropDownScreenState extends State<DropDownScreen> {
                   StreamBuilder(
                       stream: villageSecBloc.getVillagesSecList,
                       builder: (context,
-                          AsyncSnapshot<List<VillageSecModel>> snapshot) {
+                          AsyncSnapshot<VillageSecModel> snapshot) {
                         if(snapshot.hasData){
+                          if(snapshot.data.status){
+
+                          }
+
                           villageList=snapshot.data;
                           Container(
                             height: 50,
                             width: MediaQuery.of(context).size.width,
                             child:(snapshot.data==null) ?Text("No data to show"):SearchableDropdown.single(
-                            items: villageList[0].data.map((item) => DropdownMenuItem(
+                            items: villageList.data.map((item) => DropdownMenuItem(
                               value: item,
                               child: Text(item.villagesec),
                             ) ).toList(),
-                            value: village,
+                            value: data,
                             hint: "Select VillageSec",
                             searchHint: "Search VillageSec",
                             onChanged: (value) {
                               setState(() {
-                                village = value;
+                                data = value;
                               });
                             },
                             isExpanded: true,
@@ -113,24 +119,24 @@ class _DropDownScreenState extends State<DropDownScreen> {
                   StreamBuilder(
                       stream: villageSecBloc.getNamesList,
                       builder:
-                          (context, AsyncSnapshot<List<NameModel>> snapshot) {
+                          (context, AsyncSnapshot<NameModel> snapshot) {
                        if(snapshot.hasData) {
                          nameList=snapshot.data;
                          Container(
                            height: 50,
                            width: MediaQuery.of(context).size.width,
                            child:(snapshot.data==null) ?Text("No data to show"): SearchableDropdown.single(
-                             items: nameList[0].data.map((item) =>
+                             items: nameList.data.map((item) =>
                                  DropdownMenuItem(
                                    value: item,
                                    child: Text(item.name),
                                  )).toList(),
-                             value: name,
+                             value: nameData,
                              hint: "Select Name",
                              searchHint: "Search Name",
                              onChanged: (value) {
                                setState(() {
-                                 village = value;
+                                 nameData = value;
                                });
                              },
                              isExpanded: true,
@@ -153,8 +159,8 @@ class _DropDownScreenState extends State<DropDownScreen> {
                           onPressed: () {
                             BlocProvider.of<BookingBolc>(context)
                                 .add(SubmitButtonPressed(
-                              village: village.data[0].id.toString(),
-                              name: name.data[0].id.toString(),
+                              village: data.id.toString(),
+                              name: nameData.id.toString(),
                             ));
                           },
                           child: Text("Submit",style: TextStyle(color: Colors.white),),
